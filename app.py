@@ -1,4 +1,4 @@
-import requests , os , psutil , sys , jwt , pickle , json , binascii , time , urllib3 , base64 , datetime , re , socket , threading , ssl , pytz , aiohttp
+import requests , os , psutil , sys , jwt , pickle , json , binascii , time , urllib3 , base64 , datetime , re , socket , threading , ssl , pytz , aiohttp , random , asyncio
 from flask import Flask, request, jsonify
 from protobuf_decoder.protobuf_decoder import Parser
 from xC4 import * ; from xHeaders import *
@@ -8,6 +8,8 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Thread
 from Pb2 import DEcwHisPErMsG_pb2 , MajoRLoGinrEs_pb2 , PorTs_pb2 , MajoRLoGinrEq_pb2 , sQ_pb2 , Team_msg_pb2
 from cfonts import render, say
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
 
 
 #EMOTES BY NAJMI_FF_EXPERIMENT 
@@ -583,7 +585,7 @@ def join_team():
 
 
 def run_flask():
-    port = int(os.environ.get("PORT", 10000))
+    port = int(os.environ.get("PORT", 21505))
     app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
 
 
@@ -675,4 +677,15 @@ async def StarTinG():
 
 
 if __name__ == '__main__':
-    asyncio.run(StarTinG())
+    # Import asyncio explicitly for the threading approach
+    import asyncio
+    import threading
+    
+    def run_bot():
+        asyncio.run(StarTinG())
+    
+    bot_thread = threading.Thread(target=run_bot, daemon=True)
+    bot_thread.start()
+    
+    port = int(os.environ.get("PORT", 21505))
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
